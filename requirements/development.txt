@@ -1,0 +1,6 @@
+-r ./common.txt
+pylint==2.6.0
+autopep8==1.5.4
+pytest==6.2.1
+pytest-django==4.2.0
+git+https://daniel.villegas:vg4jgrexet3atfliuhjzsafrdalo4sibk7qdytzecfu4bwcjqlga@dev.azure.com/EcommerceVivaAir/Web%20VivaAir/_git/Settings@develop#egg=backend_shared

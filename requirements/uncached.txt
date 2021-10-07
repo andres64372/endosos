@@ -1,0 +1,2 @@
+git+https://daniel.villegas:vg4jgrexet3atfliuhjzsafrdalo4sibk7qdytzecfu4bwcjqlga@dev.azure.com/EcommerceVivaAir/Web%20VivaAir/_git/Settings@develop#egg=backend_shared
+#git+https://daniel.villegas:vg4jgrexet3atfliuhjzsafrdalo4sibk7qdytzecfu4bwcjqlga@dev.azure.com/EcommerceVivaAir/Web%20VivaAir/_git/Settings@master#egg=backend_shared

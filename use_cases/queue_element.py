@@ -17,7 +17,7 @@ class QueuElement:
         booking_retrieve = self.__queue_repository.retrieve_by_record_locator(record_locator)
         journeys = booking_retrieve["data"]["journeys"]
         booking_key = booking_retrieve["data"]["bookingKey"]
-        history_retrieve = self.__queue_repository.queue_history(booking_key)
+        #history_retrieve = self.__queue_repository.queue_history(booking_key)
         journey_to_endose = ''
         flights_to_endose = []
         passengers = self.__queue_repository.passenger_keys()

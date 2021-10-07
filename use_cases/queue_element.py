@@ -18,32 +18,33 @@ class QueuElement:
         journeys = booking_retrieve["data"]["journeys"]
         booking_key = booking_retrieve["data"]["bookingKey"]
         history_retrieve = self.__queue_repository.queue_history(booking_key)
-        queuee_date = datetime.strptime(history_retrieve["data"][0]["createdDate"],"%Y-%m-%dT%H:%M:%S.%f")
-        date_to_endose = datetime.strptime("9999-12-31T00:00:00","%Y-%m-%dT%H:%M:%S")
         journey_to_endose = ''
         flights_to_endose = []
-        for journey in journeys:
-            segments = journey["segments"]
-            departure_time = datetime.strptime(journey["designator"]["departure"],"%Y-%m-%dT%H:%M:%S")
-            journey_key = journey["journeyKey"]
-            flight_numbers = []
-            if abs(date_to_endose-queuee_date) > abs(departure_time-queuee_date):
-                journey_to_endose = journey_key
-                date_to_endose = departure_time
-                for segment in segments:
-                    flight_numbers.append(segment["identifier"]["identifier"])
-                segment = segments[0]
-                fares = {}
-                fare = segment["fares"][0] 
-                for passegnger_fare in fare["passengerFares"]:
-                    passenger_type = passegnger_fare["passengerType"]
-                    service_charges = []
-                    for service_charge in passegnger_fare["serviceCharges"]:
-                        service_charges.append({"amount":service_charge["amount"],"type":service_charge["ticketCode"]})
-                    fares[passenger_type] = service_charges
-                flights_to_endose = flight_numbers          
         passengers = self.__queue_repository.passenger_keys()
         passenger_keys = list(passengers["data"].keys())
+        for journey in journeys:
+            journey_key = journey["journeyKey"]
+            flight_numbers = []
+            for segment in journey["segments"]:
+                check_ssr = False
+                for passenger in passenger_keys:
+                    ssrs = segment["passengerSegment"][passenger]["ssrs"]
+                    for ssr in ssrs:
+                        if ssr["ssrCode"] == "FELA":
+                            flight_numbers.append(ssr["market"]["identifier"]["identifier"])
+                            journey_to_endose = journey_key
+                            check_ssr = True
+                if check_ssr:
+                    fares = {}
+                    fare = segment["fares"][0] 
+                    for passegnger_fare in fare["passengerFares"]:
+                        passenger_type = passegnger_fare["passengerType"]
+                        service_charges = []
+                        for service_charge in passegnger_fare["serviceCharges"]:
+                            service_charges.append({"amount":service_charge["amount"],"type":service_charge["ticketCode"]})
+                        fares[passenger_type] = service_charges
+                    flights_to_endose = flight_numbers          
+        
         felata = 0
         feiva = 0
         passengers = booking_retrieve["data"]["passengers"]

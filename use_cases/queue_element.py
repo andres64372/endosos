@@ -93,7 +93,5 @@ class QueuElement:
             print('Success')
         except Exception as e:
             print(e)
-            # deleted = self.__queue_repository.quit_queue(item_key)
-            # commit = self.__queue_repository.commit()
             return_to_queue = self.__queue_repository.return_to_queue(item_key)
         return
